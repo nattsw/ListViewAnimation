@@ -1,30 +1,33 @@
 package com.example.natalie.listviewanimation;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends Activity {
+    private static final String SAVEDINSTANCESTATE_ANIMATIONADAPTER = "savedinstancestate_animationadapter";
+    private BaseAdapter mAdapter;
+    private AnimationAdapter mAnimAdapter;
+    private ListView mNotificationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                setRightAdapter();
             }
         });
 
@@ -39,33 +43,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeList() {
-        ListView notificationList = (ListView) findViewById(R.id.notification_list);
+        mNotificationList = (ListView) findViewById(R.id.notification_list);
         ArrayList<String> a = new ArrayList<>();
         a.add("A");
         a.add("B");
-        NotificationAreaListViewAdapter adapter = new NotificationAreaListViewAdapter(this, a);
-        notificationList.setAdapter(adapter);
+        mAdapter = new NotificationAreaListViewAdapter(this, a);
+        setRightAdapter();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void setRightAdapter() {
+        mAnimAdapter = new SwingRightInAnimationAdapter(mAdapter);
+        mAnimAdapter.setAbsListView(mNotificationList);
+        mNotificationList.setAdapter(mAnimAdapter);
     }
 }
