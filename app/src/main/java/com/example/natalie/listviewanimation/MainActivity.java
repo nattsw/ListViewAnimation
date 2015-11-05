@@ -19,9 +19,6 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.Simple
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    private ArrayAdapter<String> mAdapter;
-    private AnimationAdapter mAnimAdapter;
-    private DynamicListView mNotificationList;
     private ArrayList<String> data;
 
     @Override
@@ -30,7 +27,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         initializeData();
-        initializeAdapter();
+        setSwipeDismissAdapter((DynamicListView) findViewById(R.id.notification_list));
+        setUndoSwipeAdapter((DynamicListView) findViewById(R.id.message_list));
         initializeFab();
     }
 
@@ -42,62 +40,61 @@ public class MainActivity extends Activity {
         data.add("D");
     }
 
-    private void initializeAdapter() {
-        /*Choose which animation you want*/
-
-//        setSwingFromRightAdapter();
-        setUndoSwipeAdapter();
-//        setSwipeDismissAdapter();
-    }
-
     private void initializeFab() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initializeAdapter();
+                setSwipeDismissAdapter((DynamicListView) findViewById(R.id.notification_list));
+                setUndoSwipeAdapter((DynamicListView) findViewById(R.id.message_list));
             }
         });
     }
 
-    private void initializeList(boolean undo) {
-        mNotificationList = (DynamicListView) findViewById(R.id.notification_list);
+    private ArrayAdapter<String> initializeList(DynamicListView list, boolean undo) {
+        ArrayAdapter<String> adapter;
         if (undo) {
-            mAdapter = new MessageCentreListViewAdapter(this, data);
+            adapter = new MessageCentreListViewAdapter(this, data);
         } else {
-            mAdapter = new NotificationAreaListViewAdapter(this, data);
+            adapter = new NotificationAreaListViewAdapter(this, data);
         }
+        return adapter;
     }
 
-    private void setUndoSwipeAdapter() {
-        initializeList(true);
-
+    private void setUndoSwipeAdapter(DynamicListView list) {
+        ArrayAdapter<String> adapter = initializeList(list, true);
         SimpleSwipeUndoAdapter simpleSwipeUndoAdapter =
-                new SimpleSwipeUndoAdapter(mAdapter, this, new MyOnDismissCallback());
-        mAnimAdapter = new SwingRightInAnimationAdapter(simpleSwipeUndoAdapter);
-        mAnimAdapter.setAbsListView(mNotificationList);
-        mNotificationList.setAdapter(mAnimAdapter);
-        mNotificationList.enableSimpleSwipeUndo();
+                new SimpleSwipeUndoAdapter(adapter, this, new MyOnDismissCallback(adapter));
+        AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(simpleSwipeUndoAdapter);
+        animAdapter.setAbsListView(list);
+        list.setAdapter(animAdapter);
+        list.enableSimpleSwipeUndo();
     }
 
-    private void setSwipeDismissAdapter() {
-        initializeList(false);
+    private void setSwipeDismissAdapter(DynamicListView list) {
+        ArrayAdapter<String> adapter = initializeList(list, false);
+
         SwipeDismissAdapter swipeDismissAdapter =
-                new SwipeDismissAdapter(mAdapter, new MyOnDismissCallback());
-        mAnimAdapter = new SwingRightInAnimationAdapter(swipeDismissAdapter);
-        mAnimAdapter.setAbsListView(mNotificationList);
-        mNotificationList.setAdapter(mAnimAdapter);
-        mNotificationList.enableSwipeToDismiss(new MyOnDismissCallback());
+                new SwipeDismissAdapter(adapter, new MyOnDismissCallback(adapter));
+        AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(swipeDismissAdapter);
+        animAdapter.setAbsListView(list);
+        list.setAdapter(animAdapter);
+        list.enableSwipeToDismiss(new MyOnDismissCallback(adapter));
     }
 
-    private void setSwingFromRightAdapter() {
-        initializeList(false);
-        mAnimAdapter = new SwingRightInAnimationAdapter(mAdapter);
-        mAnimAdapter.setAbsListView(mNotificationList);
-        mNotificationList.setAdapter(mAnimAdapter);
+    private void setSwingFromRightAdapter(DynamicListView list) {
+        ArrayAdapter<String> adapter = initializeList(list, false);
+
+        AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(adapter);
+        animAdapter.setAbsListView(list);
+        list.setAdapter(animAdapter);
     }
 
     private class MyOnDismissCallback implements OnDismissCallback {
+        ArrayAdapter<String> mAdapter;
+        public MyOnDismissCallback(ArrayAdapter<String> adapter) {
+            mAdapter = adapter;
+        }
         @Override
         public void onDismiss(@NonNull final ViewGroup listView,
                               @NonNull final int[] reverseSortedPositions) {

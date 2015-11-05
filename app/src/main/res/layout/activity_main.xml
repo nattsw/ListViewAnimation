@@ -17,4 +17,20 @@
         android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email" />
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white">
+        <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+            android:id="@+id/message_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:fitsSystemWindows="true"
+            android:layout_margin="8dp"
+            android:dividerHeight="8dp"/>
+    </android.support.design.widget.NavigationView>
 </merge>
