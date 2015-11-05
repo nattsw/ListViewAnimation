@@ -2,14 +2,14 @@
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/notification_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:divider="@null"
         android:fitsSystemWindows="true"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:dividerHeight="8dp"/>
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
