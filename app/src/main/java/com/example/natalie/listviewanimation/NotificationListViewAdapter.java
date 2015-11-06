@@ -9,20 +9,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
 
 import java.util.ArrayList;
 
-/* notes: If there is no need for undo, we can remove the UndoAdapter and its required implementations*/
-public class MessageCentreListViewAdapter extends ArrayAdapter<NotificationEntry> implements UndoAdapter {
+public class NotificationListViewAdapter extends ArrayAdapter<NotificationEntry> {
     Context mContext;
-    ArrayList<NotificationEntry> notifications;
     private static LayoutInflater mInflater = null;
 
-    public MessageCentreListViewAdapter(Context context, ArrayList<NotificationEntry> notifications) {
+    public NotificationListViewAdapter(Context context, ArrayList<NotificationEntry> notifications) {
         this.mContext = context;
-        this.notifications = notifications;
 
+        /* notes: ArrayAdapters have an 'add' method which allows 'getItem' to be called.
+        * So there's no need to keep a instance variable of the data :) */
         for (NotificationEntry n: notifications) {
             add(n);
         }
@@ -47,23 +47,5 @@ public class MessageCentreListViewAdapter extends ArrayAdapter<NotificationEntry
         bodyTextView.setText(entry.getBody());
 
         return rowView;
-    }
-
-    /* notes: These two methods are the required implementations for UndoAdapter */
-
-    @NonNull
-    @Override
-    public View getUndoView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
-        }
-        return view;
-    }
-
-    @NonNull
-    @Override
-    public View getUndoClickView(@NonNull View view) {
-        return view.findViewById(R.id.undo_row_undobutton);
     }
 }
