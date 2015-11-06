@@ -7,4 +7,5 @@
 
     <dimen name="notification_height">90dp</dimen>
     <dimen name="notification_bottom_margin">8dp</dimen>
+    <dimen name="notification_top_margin">0dp</dimen>
 </resources>

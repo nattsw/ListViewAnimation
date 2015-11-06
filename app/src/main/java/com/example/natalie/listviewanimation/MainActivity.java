@@ -44,6 +44,13 @@ public class MainActivity extends Activity {
         setSwipeDismissAdapter(mNotificationEntries, mNotificationList);
         setUndoSwipeAdapter(mNotificationEntries, mMessageCentreList);
 
+        /* Notes:
+        For this to work, you need to define the height and bottom (or top, if added)
+        of each notification in values/dimens.xml:
+                 notification_height
+                 notification_bottom_margin
+                 notification_top_margin
+        * */
         setNumberOfVisibleNotifications(mNotificationList, 2);
         setNumberOfVisibleNotifications(mMessageCentreList, 4);
     }
