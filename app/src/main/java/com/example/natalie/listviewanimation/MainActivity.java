@@ -62,11 +62,11 @@ public class MainActivity extends Activity {
 
     private void initializeData() {
         mNotificationEntries = new ArrayList<>();
-        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "Maybe migrate? Maybe not? If you want to, use this.", "Learn moar", "Learn moar", null));
-        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "If you want to increase your battery life, buy another battery.", "Enter!", "Learn moar", null));
+        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "The amount of text here should be limited.", "Learn moar", "Learn moar", null));
+        mNotificationEntries.add(new NotificationEntry(NotificationType.SIGN_IN, "Because the notification height is fixed.", "Enter!", "Learn moar", null));
         mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "You should download this.", "Learn moar", "Learn moar", null));
-        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "Concierge is developed by a bunch of awesome people", "Learn moar", "Learn moar", null));
-        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "Testing out different length messages. Hopefully everything will fit, we don't know.", "Learn moar", "Learn moar", null));
+        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "This is what happens when you set a super long message in your notification.", "Learn moar", "Learn moar", null));
+        mNotificationEntries.add(new NotificationEntry(NotificationType.GENERAL, "I don't think it's a good idea...", "Learn moar", "Learn moar", null));
     }
 
     private int getNotificationHeight() {

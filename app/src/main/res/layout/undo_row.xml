@@ -14,7 +14,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="@dimen/notification_top_margin"
         app:cardUseCompatPadding="true"
-        card_view:cardBackgroundColor="@color/blue_green_color"
+        card_view:cardBackgroundColor="@color/notification_card"
         card_view:cardCornerRadius="4dp"
         card_view:contentPadding="16dp">
 
@@ -32,7 +32,6 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:text="Deleted"
-                android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <View
@@ -50,7 +49,6 @@
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:text="Undo"
-                android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
 

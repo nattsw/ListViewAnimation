@@ -2,15 +2,14 @@ package com.example.natalie.listviewanimation;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
 
 import java.util.ArrayList;
 
@@ -38,13 +37,18 @@ public class NotificationListViewAdapter extends ArrayAdapter<NotificationEntry>
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = mInflater.inflate(R.layout.notification_layout, parent, false);
 
+        CardView notificationCardView = (CardView) rowView.findViewById(R.id.notification_card);
         TextView headerTextView = (TextView) rowView.findViewById(R.id.notification_header);
         TextView bodyTextView = (TextView) rowView.findViewById(R.id.notification_text);
+        ImageView iconImageView = (ImageView) rowView.findViewById(R.id.notification_icon);
         headerTextView.setTypeface(null, Typeface.BOLD);
 
         NotificationEntry entry = getItem(position);
+        notificationCardView.setCardBackgroundColor(
+                mContext.getResources().getColor(entry.getCardColorResFromType()));
         headerTextView.setText(entry.getTitle());
         bodyTextView.setText(entry.getBody());
+        iconImageView.setImageResource(entry.getIconFromType());
 
         return rowView;
     }

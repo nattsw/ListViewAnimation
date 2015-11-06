@@ -13,7 +13,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:cardUseCompatPadding="true"
-        card_view:cardBackgroundColor="@color/blue_green_color"
+        card_view:cardBackgroundColor="@color/notification_card"
         card_view:cardCornerRadius="4dp"
         card_view:contentPadding="16dp">
 
@@ -23,9 +23,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_device_bulb" />
+                android:id="@+id/notification_icon"
+                android:layout_width="@dimen/notification_icon"
+                android:layout_height="@dimen/notification_icon"
+                android:src="@drawable/ic_info_outline_24dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -38,15 +39,13 @@
                     android:id="@+id/notification_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Header"
-                    android:textColor="@android:color/white"/>
+                    android:text="Header"/>
 
                 <TextView
                     android:id="@+id/notification_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text"
-                    android:textColor="@android:color/white" />
+                    android:text="Text" />
             </LinearLayout>
 
         </LinearLayout>

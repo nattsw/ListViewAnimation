@@ -1,6 +1,7 @@
 package com.example.natalie.listviewanimation;
 
 public enum NotificationType {
+    SIGN_IN,
     GENERAL,
     APPBOY,
     LOW_BATTERY_BRIGHTNESS,

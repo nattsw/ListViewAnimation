@@ -2,6 +2,8 @@ package com.example.natalie.listviewanimation;
 
 import android.content.Intent;
 
+import static com.example.natalie.listviewanimation.NotificationType.GENERAL;
+
 public class NotificationEntry {
 
     private NotificationType type;
@@ -24,6 +26,38 @@ public class NotificationEntry {
 
     public NotificationType getType() {
         return type;
+    }
+
+    public int getIconFromType() {
+        int returnRes;
+        switch (type) {
+            case SIGN_IN:
+                returnRes = R.drawable.ic_warning_24dp;
+                break;
+            case GENERAL:
+                returnRes = R.drawable.ic_info_outline_24dp;
+                break;
+            default:
+                returnRes= R.drawable.ic_info_outline_24dp;
+                break;
+        }
+        return returnRes;
+    }
+
+    public int getCardColorResFromType() {
+        int returnRes;
+        switch (type) {
+            case SIGN_IN:
+                returnRes = R.color.warning_notification_card;
+                break;
+            case GENERAL:
+                returnRes = R.color.notification_card;
+                break;
+            default:
+                returnRes = R.color.notification_card;
+                break;
+        }
+        return returnRes;
     }
 
     public String getTitle() {

@@ -3,5 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
     <color name="blue_green_color">#61CDDB</color>
+    <color name="warning_notification_card">#FFA500</color>
+    <color name="notification_card">#F9F9F9</color>
+    <color name="notification_icon_color">#61CDDB</color>
 </resources>
