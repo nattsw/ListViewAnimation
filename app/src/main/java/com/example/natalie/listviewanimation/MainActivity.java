@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.Simple
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    private ArrayList<String> data;
+    private ArrayList<NotificationEntry> mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +29,46 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         initializeData();
-        setSwipeDismissAdapter((DynamicListView) findViewById(R.id.notification_list));
-        setUndoSwipeAdapter((DynamicListView) findViewById(R.id.message_list));
-        initializeFab();
+
+        DynamicListView notificationList = (DynamicListView) findViewById(R.id.notification_list);
+        DynamicListView messageCentreList = (DynamicListView) findViewById(R.id.message_list);
+
+        setSwipeDismissAdapter(mData, notificationList);
+        setUndoSwipeAdapter(mData, messageCentreList);
+
+        setNumberOfNotificationsVisible(notificationList, 2);
+        setNumberOfNotificationsVisible(messageCentreList, 4);
     }
 
     private void initializeData() {
-        data = new ArrayList<>();
-        data.add("A");
-        data.add("B");
-        data.add("C");
-        data.add("D");
+        mData = new ArrayList<>();
+        mData.add(new NotificationEntry(NotificationType.GENERAL, "Maybe migrate? Maybe not? If you want to, use this.", "Learn moar", "Learn moar", null));
+        mData.add(new NotificationEntry(NotificationType.GENERAL, "If you want to increase your battery life, buy another battery.", "Enter!", "Learn moar", null));
+        mData.add(new NotificationEntry(NotificationType.GENERAL, "You should download this.", "Learn moar", "Learn moar", null));
+        mData.add(new NotificationEntry(NotificationType.GENERAL, "Concierge is developed by a bunch of awesome people", "Learn moar", "Learn moar", null));
+        mData.add(new NotificationEntry(NotificationType.GENERAL, "Testing out different length messages. Hopefully everything will fit, we don't know.", "Learn moar", "Learn moar", null));
     }
 
-    private void initializeFab() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setSwipeDismissAdapter((DynamicListView) findViewById(R.id.notification_list));
-                setUndoSwipeAdapter((DynamicListView) findViewById(R.id.message_list));
-            }
-        });
+    private void setNumberOfNotificationsVisible(DynamicListView listView, int numberOfNotificationsVisible) {
+        int dpOfOneNotification = 95;
+        int dpHeight = numberOfNotificationsVisible * dpOfOneNotification;
+        setHeightOfListView(listView, getHeightFromDP(dpHeight));
     }
 
-    private ArrayAdapter<String> initializeList(DynamicListView list, boolean undo) {
-        ArrayAdapter<String> adapter;
+    private int getHeightFromDP(int dp) {
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        return height;
+    }
+
+    private void setHeightOfListView(DynamicListView listView, int value) {
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = value;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    private ArrayAdapter<NotificationEntry> initializeList(ArrayList<NotificationEntry> data, boolean undo) {
+        ArrayAdapter<NotificationEntry> adapter;
         if (undo) {
             adapter = new MessageCentreListViewAdapter(this, data);
         } else {
@@ -61,8 +77,8 @@ public class MainActivity extends Activity {
         return adapter;
     }
 
-    private void setUndoSwipeAdapter(DynamicListView list) {
-        ArrayAdapter<String> adapter = initializeList(list, true);
+    private void setUndoSwipeAdapter(ArrayList<NotificationEntry> data, DynamicListView list) {
+        ArrayAdapter<NotificationEntry> adapter = initializeList(data, true);
         SimpleSwipeUndoAdapter simpleSwipeUndoAdapter =
                 new SimpleSwipeUndoAdapter(adapter, this, new MyOnDismissCallback(adapter));
         AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(simpleSwipeUndoAdapter);
@@ -71,8 +87,8 @@ public class MainActivity extends Activity {
         list.enableSimpleSwipeUndo();
     }
 
-    private void setSwipeDismissAdapter(DynamicListView list) {
-        ArrayAdapter<String> adapter = initializeList(list, false);
+    private void setSwipeDismissAdapter(ArrayList<NotificationEntry> data, DynamicListView list) {
+        ArrayAdapter<NotificationEntry> adapter = initializeList(data, false);
 
         SwipeDismissAdapter swipeDismissAdapter =
                 new SwipeDismissAdapter(adapter, new MyOnDismissCallback(adapter));
@@ -82,8 +98,8 @@ public class MainActivity extends Activity {
         list.enableSwipeToDismiss(new MyOnDismissCallback(adapter));
     }
 
-    private void setSwingFromRightAdapter(DynamicListView list) {
-        ArrayAdapter<String> adapter = initializeList(list, false);
+    private void setSwingFromRightAdapter(ArrayList<NotificationEntry> data, DynamicListView list) {
+        ArrayAdapter<NotificationEntry> adapter = initializeList(data, false);
 
         AnimationAdapter animAdapter = new SwingRightInAnimationAdapter(adapter);
         animAdapter.setAbsListView(list);
@@ -91,8 +107,8 @@ public class MainActivity extends Activity {
     }
 
     private class MyOnDismissCallback implements OnDismissCallback {
-        ArrayAdapter<String> mAdapter;
-        public MyOnDismissCallback(ArrayAdapter<String> adapter) {
+        ArrayAdapter<NotificationEntry> mAdapter;
+        public MyOnDismissCallback(ArrayAdapter<NotificationEntry> adapter) {
             mAdapter = adapter;
         }
         @Override

@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="8dp"
-    android:padding="16dp"
-    android:background="@color/blue_green_color">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_device_bulb" />
+    <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/tools"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:cardUseCompatPadding="true"
+        card_view:cardBackgroundColor="@color/blue_green_color"
+        card_view:cardCornerRadius="4dp"
+        card_view:contentPadding="16dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
-        <TextView
-            android:id="@+id/notification_header"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Header"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"/>
-        <TextView
-            android:id="@+id/notification_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Text"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_device_bulb" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/notification_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Header"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/notification_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>
